@@ -4,7 +4,7 @@
 
 $labels = array();
 $labels['forward'] = 'Inoltro';
-$labels['forwardforwards'] = 'Indirizzi di inoltro (uno per riga o separati da ; oppure ,)\nNel caso sia impostato un autorisponditore comparirà\nautomaticamente un indirizzo contenente \'autoreply\'\nche si prega di non modificare o cancellare';
+$labels['forwardforwards'] = 'Indirizzi di inoltro (uno per riga o separati da ; oppure ,)\nNel caso sia impostato un autorisponditore comparirà';
 $labels['forwardkeepcopies'] = 'Mantieni copia dei messaggi originali';
 
 $messages = array();

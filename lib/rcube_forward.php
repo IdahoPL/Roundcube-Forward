@@ -29,12 +29,15 @@ class rcube_forward {
 	public $forward_keepcopy = TRUE;
 	public $forward_forwards = '';
 
+	public $vacation_user = '';
+
 	public function __construct() {
 		$this->init();
 		}
 
 	private function init() {
 		$this->username = rcmail::get_instance()->user->get_username();
+		$this->vacation_domain = rcmail::get_instance()->config->get('vacation_domain');
 		}
 
 	// Gets the username.
@@ -52,6 +55,14 @@ class rcube_forward {
 		return $this->forward_keepcopies;
 		}
 
+	public function is_vacation_active() {
+		return $this->vacation_active;
+		}
+
+	public function get_vacation_user() {
+		return $this->vacation_user;
+		}
+
 	// Sets the forward addresses.
 	public function set_forward_forwards($forwards) {
 		$this->forward_forwards = $forwards;
@@ -62,4 +73,11 @@ class rcube_forward {
 		$this->forward_keepcopies = $flag;
 		}
 
+	public function set_vacation_active($flag) {
+		$this->vacation_active = $flag;
+		}
+
+	public function set_vacation_user($vacation_user) {
+		$this->vacation_user = $vacation_user;
+		}
 	}

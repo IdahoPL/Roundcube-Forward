@@ -4,7 +4,7 @@
 
 $labels = array();
 $labels['forward'] = 'Továbbítás';
-$labels['forwardforwards'] = 'Továbbítási címek (elválaszthatja "," vesszővel, ";" pontosvesszővel vagy új sorokba írva) \n Pl:: email@email.com,email2@email2.com\n Ha a továbbítás autoreply-vel kezdődő \ncímet tartalmaz \'autoreply\' ne módosítsa vagy törölje';
+$labels['forwardforwards'] = 'Továbbítási címek (elválaszthatja "," vesszővel, ";" pontosvesszővel vagy új sorokba írva) \n Pl:: email@email.com,email2@email2.com';
 $labels['forwardkeepcopies'] = 'Másolat megtartása a helyi fiókba';
 
 $messages = array();

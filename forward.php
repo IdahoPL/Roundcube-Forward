@@ -61,7 +61,8 @@ class forward extends rcube_plugin {
 		}
 
 	public function forward_save() {
-		$this->write_data();
+		$vacation = $this->read_data();
+		$this->write_data($vacation);
 		$this->register_handler('plugin.body', array($this, 'forward_form'));
 		$this->rc->output->set_pagetitle($this->gettext('forward'));
 		rcmail::get_instance()->overwrite_action('plugin.forward');
@@ -125,11 +126,17 @@ class forward extends rcube_plugin {
 			}
 
 		$forwards = explode(",", $data['goto']);
+		$this->obj->set_vacation_user(str_replace("@", "#", $this->obj->username)."@".$this->obj->vacation_domain);
+		
 		if (in_array($this->obj->username, $forwards)) {
 			$this->obj->set_forward_keepcopies(TRUE);
 			}
 
-		$forwards = array_diff($forwards, array($this->obj->username));
+		if (in_array($this->obj->vacation_user, $forwards)) {
+			$this->obj->set_vacation_active(TRUE);
+			}
+
+		$forwards = array_diff($forwards, array($this->obj->username), array($this->obj->vacation_user));
 		if (!empty($forwards)) {
 			$data['goto'] = implode("\n", $forwards);
 			$this->obj->set_forward_forwards($data['goto']);
@@ -138,11 +145,14 @@ class forward extends rcube_plugin {
 			$this->obj->set_forward_forwards('');
 			}
 
-		return TRUE;
+		$vacation = array('user' => $this->obj->get_vacation_user(), 'active' => $this->obj->is_vacation_active());
+		return $vacation;
 
 		}
 
-	public function write_data() {
+	public function write_data($vacation) {
+		$this->obj->set_vacation_user($vacation['user']);
+		$this->obj->set_vacation_active($vacation['active']);
 
 		$forwards = trim(rcube_utils::get_input_value('_forwardforwards', rcube_utils::INPUT_POST));
 
@@ -193,6 +203,12 @@ class forward extends rcube_plugin {
 			raise_error(array('code' => 600, 'type' => 'php', 'file' => __FILE__, 'message' => "forward plugin: function mail_forward_write not found in driver $driver"), true, false);
 			return $this->gettext('forwardinternalerror');
 			}
+
+		if ($this->obj->is_vacation_active()) {
+			$forwards = $this->obj->get_forward_forwards();
+			$forwards .= "," . $this->obj->vacation_user;
+			$this->obj->set_forward_forwards($forwards);
+		}
 
 		$data = array();
 		$data['address'] = $this->obj->username;

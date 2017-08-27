@@ -17,4 +17,6 @@ $rcmail_config['forward_sql_write'] = 'UPDATE alias SET goto = %goto, modified =
 // The SQL query used to select aliases.
 $rcmail_config['forward_sql_read'] = 'SELECT * FROM alias WHERE address = %address';
 
+$rcmail_config['vacation_domain'] = 'autoreply.my.domain';
+
 ?>
